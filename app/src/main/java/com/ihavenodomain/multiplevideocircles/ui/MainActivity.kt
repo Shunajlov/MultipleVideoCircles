@@ -28,13 +28,13 @@ class MainActivity : AppCompatActivity() {
                     pgMain.addViewAtRandomPosition(it)
                 }
 
+                if (CameraPermissionsUtils.checkCameraPermission(this@MainActivity)) {
+                    pgMain.notifyCameraPermissionGranted()
+                }
+
                 pgMain.viewTreeObserver.removeOnGlobalLayoutListener(this)
             }
         })
-
-        if (CameraPermissionsUtils.checkCameraPermission(this)) {
-            pgMain.notifyCameraPermissionGranted()
-        }
     }
 
     override fun onPause() {

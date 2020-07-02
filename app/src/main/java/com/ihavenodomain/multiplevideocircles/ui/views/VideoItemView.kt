@@ -99,8 +99,8 @@ class VideoItemView @JvmOverloads constructor(
     }
 
     fun notifyCameraPermissionGranted() {
-        if (!isForCamera) return
         hasPermission = true
+        if (!isForCamera) return
         playCameraVideo()
     }
 
@@ -116,11 +116,10 @@ class VideoItemView @JvmOverloads constructor(
     }
 
     private fun startPlaying() {
-        if (isForCamera) {
-            playCameraVideo()
-        } else {
+        if (!isForCamera) {
             playLocalUriVideo()
         }
+        // camera preview will start after permission checks passed
     }
 
     private fun playCameraVideo() {
