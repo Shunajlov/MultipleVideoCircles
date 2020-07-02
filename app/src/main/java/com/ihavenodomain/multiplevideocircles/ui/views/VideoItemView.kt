@@ -169,8 +169,12 @@ class VideoItemView @JvmOverloads constructor(
 
         val videoView = videoContentPreview as VideoView
 
-        videoView.setOnPreparedListener(getOnPreparedListener(videoView))
         videoView.setOnCompletionListener(getOnCompletionListener(videoView))
+        videoView.setOnPreparedListener(getOnPreparedListener(videoView))
+        videoView.setOnErrorListener { mp, what, extra ->
+            Timber.e("error trying playing video: $mp \n $what, $extra")
+            true
+        }
         videoView.setVideoURI(videoSource)
         videoView.seekTo(position)
         videoView.start()
