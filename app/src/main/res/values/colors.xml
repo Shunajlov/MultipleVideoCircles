@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@android:color/black</color>
+    <color name="colorPrimaryDark">@android:color/black</color>
+    <color name="colorAccent">@color/lightBlue</color>
+
+    <color name="colorVideoBorder">@android:color/white</color>
+    <color name="colorCameraBorder">@color/lightBlue</color>
+
+    <color name="colorText">@color/lightBlue</color>
+
+    <color name="lightBlue">#74E3F3</color>
+</resources>
