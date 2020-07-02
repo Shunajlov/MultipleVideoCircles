@@ -7,17 +7,13 @@ import android.util.AttributeSet
 import android.util.SparseArray
 import android.view.MotionEvent
 import android.view.View
-import android.view.WindowManager
 import android.widget.FrameLayout
-import androidx.core.animation.addListener
-import androidx.core.animation.doOnEnd
 import androidx.core.view.children
 import com.ihavenodomain.multiplevideocircles.utils.PositionAndSize
 import com.ihavenodomain.multiplevideocircles.utils.findNearestPositionForMove
 import com.ihavenodomain.multiplevideocircles.utils.isTouchOverStoredView
 import com.ihavenodomain.multiplevideocircles.utils.willBeIntersectedByPosition
-import java.util.*
-import kotlin.collections.HashMap
+import kotlin.random.Random
 
 /**
  * key - Int (View ID)
@@ -45,12 +41,11 @@ class PlaygroundViewGroup @JvmOverloads constructor(
         val maxWidth = this.width - view.defaultWH
         val maxHeight = this.height - view.defaultWH
 
-        val r = Random()
         var intersects = true
 
         while (intersects) {
-            val xPos = r.nextInt(maxWidth).toFloat()
-            val yPos = r.nextInt(maxHeight).toFloat()
+            val xPos = Random.nextInt(maxWidth).toFloat()
+            val yPos = Random.nextInt(maxHeight).toFloat()
 
             view.x = xPos
             view.y = yPos
