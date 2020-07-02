@@ -46,7 +46,7 @@ class VideoItemView @JvmOverloads constructor(
     /**
      * To make view circled
      */
-    private val defaultRadius = context.resources.getDimension(R.dimen.default_video_radius)
+    private val defaultRadius = defaultWH / 2F
 
     /**
      * If there's no video source URI, then the view should show an image from camera
