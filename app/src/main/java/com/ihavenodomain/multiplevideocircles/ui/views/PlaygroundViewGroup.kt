@@ -68,7 +68,10 @@ class PlaygroundViewGroup @JvmOverloads constructor(
             }
         }
 
-        takenCoordinates[view.id] = view.x to view.y
+        // We should not save camera-moving view coordinates
+        if (!view.isForCamera) {
+            takenCoordinates[view.id] = view.x to view.y
+        }
         addView(view)
     }
 
