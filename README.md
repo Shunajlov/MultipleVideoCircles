@@ -3,3 +3,5 @@
 
 Tested on Android Emulator (API 21..29) (with minimum display size 3.2") and Samsung Galaxy S10+ (API 29).
 Didn't test on tablets.
+
+[https://github.com/Shunajlov/MultipleVideoCircles/blob/master/Screenshot_32.png]
