@@ -32,11 +32,12 @@ object CameraPermissionsUtils {
     }
 
     private fun isCameraPermissionGranted(context: Context) =
-            Build.VERSION.SDK_INT >= 23
-                    && ContextCompat.checkSelfPermission(
-                    context,
-                    Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
+        Build.VERSION.SDK_INT < 23 ||
+                Build.VERSION.SDK_INT >= 23
+                && ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
 
     @RequiresApi(23)
     fun askForCameraPermission(activity: Activity) {
@@ -46,18 +47,18 @@ object CameraPermissionsUtils {
     private fun showAlert(activity: Activity) {
         if (Build.VERSION.SDK_INT >= 23) {
             AlertDialog.Builder(activity)
-                    .setMessage(R.string.permission_alert_message)
-                    .setPositiveButton(android.R.string.yes) { dialog, _ ->
-                        askForCameraPermission(activity)
-                        dialog.cancel()
-                    }
-                    .show()
+                .setMessage(R.string.permission_alert_message)
+                .setPositiveButton(android.R.string.yes) { dialog, _ ->
+                    askForCameraPermission(activity)
+                    dialog.cancel()
+                }
+                .show()
         }
     }
 
     fun onRequestPermissionsResult(
-            context: Context, requestCode: Int, permissions: Array<out String>,
-            grantResults: IntArray
+        context: Context, requestCode: Int, permissions: Array<out String>,
+        grantResults: IntArray
     ): Boolean {
         val permissionGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED
         if (requestCode == CAMERA_REQUEST_CODE) {
