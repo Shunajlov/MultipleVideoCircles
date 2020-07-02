@@ -109,7 +109,7 @@ class VideoItemView @JvmOverloads constructor(
         playLocalUriVideo(position)
     }
 
-    fun getVideoPosition() : Int {
+    fun getVideoPosition(): Int {
         if (isForCamera) return 0
         val videoView = videoContentPreview as VideoView
         return videoView.currentPosition
@@ -143,9 +143,11 @@ class VideoItemView @JvmOverloads constructor(
             preview = Preview.Builder()
                 .build()
 
-            // Select front camera
+            val hasFrontCamera = cameraProvider.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA)
+
+            // Select front camera if it exists
             val cameraSelector = CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
+                .requireLensFacing(if (hasFrontCamera) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK)
                 .build()
 
             try {
@@ -211,9 +213,10 @@ class VideoItemView @JvmOverloads constructor(
     /**
      * Used to replay local video after it's finish
      */
-    private fun getOnCompletionListener(videoView: VideoView) = MediaPlayer.OnCompletionListener { mp ->
-        mp.reset()
-        videoView.setVideoURI(videoSource)
-        videoView.start();
-    }
+    private fun getOnCompletionListener(videoView: VideoView) =
+        MediaPlayer.OnCompletionListener { mp ->
+            mp.reset()
+            videoView.setVideoURI(videoSource)
+            videoView.start()
+        }
 }
