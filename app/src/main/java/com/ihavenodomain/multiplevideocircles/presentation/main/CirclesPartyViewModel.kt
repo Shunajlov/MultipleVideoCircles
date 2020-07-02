@@ -46,5 +46,7 @@ class CirclesPartyViewModel : ViewModel() {
 
     companion object {
         const val VIDEO_VIEWS_COUNT = 10
+
+        const val VIDEO_ESTIMATED_COUNT = 20
     }
 }

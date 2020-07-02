@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         pgMain.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 viewModel.getViewsForLayout(this@MainActivity).forEach {
-                    pgMain.addViewAtRandomPosition(it)
+                    pgMain.addViewAtRandomPosition(it, CirclesPartyViewModel.VIDEO_ESTIMATED_COUNT)
                 }
 
                 if (CameraPermissionsUtils.checkCameraPermission(this@MainActivity)) {
@@ -60,12 +60,12 @@ class MainActivity : AppCompatActivity() {
      * For splash screen support
      */
     private fun setDefaultThemeWithDelay() {
-        try {
-            // we need this code just to be sure that user will see our beautiful 'welcome-screen'
-            Thread.sleep(1000)
-        } catch (ex: InterruptedException) {
-            // do nothing
-        }
+//        try {
+//            // we need this code just to be sure that user will see our beautiful 'welcome-screen'
+//            Thread.sleep(1000)
+//        } catch (ex: InterruptedException) {
+//            // do nothing
+//        }
 
         setTheme(R.style.AppTheme)
     }

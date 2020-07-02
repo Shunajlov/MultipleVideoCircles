@@ -41,12 +41,12 @@ class VideoItemView @JvmOverloads constructor(
     /**
      * Width / Height
      */
-    val defaultWH = context.resources.getDimension(R.dimen.default_video_item_side).toInt()
+    private var defaultWH = context.resources.getDimension(R.dimen.default_video_item_side).toInt()
 
     /**
      * To make view circled
      */
-    private val defaultRadius = context.resources.getDimension(R.dimen.default_video_radius)
+    private var defaultRadius = defaultWH / 2F
 
     /**
      * If there's no video source URI, then the view should show an image from camera
@@ -59,12 +59,20 @@ class VideoItemView @JvmOverloads constructor(
     private var camera: Camera? = null
     private var hasPermission: Boolean = false
 
-    init {
-        id = View.generateViewId()
+    fun changeLayoutParams(sideSize: Int) {
+        defaultWH = sideSize
+        defaultRadius = defaultWH / 2F
 
         val layoutParams = LayoutParams(defaultWH, defaultWH)
         this.layoutParams = layoutParams
         this.radius = defaultRadius
+    }
+
+    init {
+        id = View.generateViewId()
+
+        changeLayoutParams(defaultWH)
+
         this.setCardBackgroundColor(ContextCompat.getColor(this.context, android.R.color.black))
         this.cardElevation = 0F
 

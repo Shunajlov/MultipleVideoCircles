@@ -13,6 +13,8 @@ import com.ihavenodomain.multiplevideocircles.utils.PositionAndSize
 import com.ihavenodomain.multiplevideocircles.utils.findNearestPositionForMove
 import com.ihavenodomain.multiplevideocircles.utils.isTouchOverStoredView
 import com.ihavenodomain.multiplevideocircles.utils.willBeIntersectedByPosition
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 /**
@@ -33,13 +35,34 @@ class PlaygroundViewGroup @JvmOverloads constructor(
 ), View.OnTouchListener {
     private val takenCoordinates = TakenCoordinates()
 
+    private var calculatedViewSize: Int = 0
+    private var sideSizeCalculated = false
+
     init {
         setOnTouchListener(this)
     }
 
-    fun addViewAtRandomPosition(view: VideoItemView) {
-        val maxWidth = this.width - view.defaultWH
-        val maxHeight = this.height - view.defaultWH
+    /**
+     * Calculate view side size for [viewsCount] that could fit [PlaygroundViewGroup]
+     */
+    private fun calculateSideSizeFor(viewsCount: Int) {
+        if (this.width == 0) return
+
+        val displayArea = this.width * this.height
+
+        calculatedViewSize = sqrt((displayArea / viewsCount).toDouble()).roundToInt()
+    }
+
+    fun addViewAtRandomPosition(view: VideoItemView, estimatedViewCount: Int) {
+        if (!sideSizeCalculated) {
+            calculateSideSizeFor(estimatedViewCount)
+            sideSizeCalculated = true
+        }
+
+        view.changeLayoutParams(calculatedViewSize)
+
+        val maxWidth = this.width - calculatedViewSize
+        val maxHeight = this.height - calculatedViewSize
 
         var intersects = true
 
@@ -53,8 +76,8 @@ class PlaygroundViewGroup @JvmOverloads constructor(
             intersects = false
 
             for (item in takenCoordinates) {
-                val pos1 = PositionAndSize(view.x, view.y, view.defaultWH)
-                val pos2 = PositionAndSize(item.value.first, item.value.second, view.defaultWH)
+                val pos1 = PositionAndSize(view.x, view.y, calculatedViewSize)
+                val pos2 = PositionAndSize(item.value.first, item.value.second, calculatedViewSize)
 
                 if (pos1.willBeIntersectedByPosition(pos2)) {
                     intersects = true
@@ -67,6 +90,7 @@ class PlaygroundViewGroup @JvmOverloads constructor(
         if (!view.isForCamera) {
             takenCoordinates[view.id] = view.x to view.y
         }
+
         addView(view)
     }
 
