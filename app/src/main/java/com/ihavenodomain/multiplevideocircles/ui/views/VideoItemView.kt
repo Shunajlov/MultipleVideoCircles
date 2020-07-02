@@ -3,10 +3,12 @@ package com.ihavenodomain.multiplevideocircles.ui.views
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.VideoView
 import androidx.annotation.DrawableRes
 import androidx.camera.core.Camera
@@ -18,6 +20,8 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.ihavenodomain.multiplevideocircles.R
 import com.ihavenodomain.multiplevideocircles.utils.lifecycleOwner
+import com.ihavenodomain.multiplevideocircles.utils.toDp
+import com.ihavenodomain.multiplevideocircles.utils.toPx
 import timber.log.Timber
 import kotlin.math.max
 
@@ -58,23 +62,11 @@ class VideoItemView @JvmOverloads constructor(
     init {
         id = View.generateViewId()
 
-        /**
-         * Border around view
-         */
-        @DrawableRes
-        val defaultForegroundDrawableRes = if (isForCamera) {
-            R.drawable.background_camera_overlay_circle
-        } else {
-            R.drawable.background_video_overlay_circle
-        }
-
         val layoutParams = LayoutParams(defaultWH, defaultWH)
         this.layoutParams = layoutParams
         this.radius = defaultRadius
         this.setCardBackgroundColor(ContextCompat.getColor(this.context, android.R.color.black))
         this.cardElevation = 0F
-        this.foreground =
-            ContextCompat.getDrawable(context, defaultForegroundDrawableRes)
 
         // region Video/camera view child
         val layoutParamsForPreview = LayoutParams(
@@ -93,6 +85,32 @@ class VideoItemView @JvmOverloads constructor(
 
         videoContentPreview.layoutParams = layoutParamsForPreview
         this.addView(videoContentPreview)
+        // endregion
+
+        // region Border building
+        /**
+         * Border around view
+         */
+        @DrawableRes
+        val defaultForegroundDrawableRes = if (isForCamera) {
+            R.drawable.background_camera_overlay_circle
+        } else {
+            R.drawable.background_video_overlay_circle
+        }
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            this.foreground =
+                ContextCompat.getDrawable(context, defaultForegroundDrawableRes)
+        } else {
+            val hackyForeground = ImageView(context)
+            hackyForeground.setImageResource(defaultForegroundDrawableRes)
+            hackyForeground.layoutParams = LayoutParams(
+                LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT,
+                Gravity.CENTER
+            )
+            this.addView(hackyForeground)
+        }
         // endregion
 
         startPlaying()

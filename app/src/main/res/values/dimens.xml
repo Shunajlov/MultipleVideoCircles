@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_video_item_side">75dp</dimen>
-    <dimen name="default_video_radius">90dp</dimen>
+    <!--Radius should be twice lower then a side (diameter)-->
+    <dimen name="default_video_radius">37.5dp</dimen>
 </resources>

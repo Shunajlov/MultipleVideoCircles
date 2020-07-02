@@ -1,6 +1,5 @@
 package com.ihavenodomain.multiplevideocircles.utils
 
-import android.app.Activity
 import android.content.Context
 import android.util.TypedValue
 import kotlin.math.ceil
@@ -22,7 +21,7 @@ fun Int.toDp(context: Context): Int {
     return ceil((this / metrics.density).toDouble()).toInt()
 }
 
-fun Float.toDp(context: Activity): Float {
+fun Float.toDp(context: Context): Float {
     val metrics = context.resources.displayMetrics
     return ceil((this / metrics.density).toDouble()).toFloat()
 }
