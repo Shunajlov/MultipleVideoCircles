@@ -76,6 +76,8 @@ fun PositionAndSize.findNearestPositionForMove(
 
 /**
  * Determines that a [desiredPos] is in bounds of any item of [TakenCoordinates] passed.
+ *
+ * [TakenCoordinates] imply that every item has size equal to [desiredPos.third].
  */
 fun TakenCoordinates.isTouchOverStoredView(desiredPos: PositionAndSize): Boolean {
     for (item in this) {
