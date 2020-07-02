@@ -55,6 +55,8 @@ fun PositionAndSize.findNearestPositionForMove(
             maxSize.first.toFloat() - this.third
         }
         else -> {
+            // We need to subtract radius from the value because
+            // we want the view's center to be equal to clicked point
             this.first - radius
         }
     }
@@ -67,6 +69,8 @@ fun PositionAndSize.findNearestPositionForMove(
             maxSize.second.toFloat() - this.third
         }
         else -> {
+            // We need to subtract radius from the value because
+            // we want the view's center to be equal to clicked point
             this.second - radius
         }
     }
