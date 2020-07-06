@@ -20,7 +20,7 @@ class CirclesPartyViewModel : ViewModel() {
     fun getViewsForLayout(context: Context): Set<VideoItemView> {
         if (videoItemViewsSet.size > 0) return videoItemViewsSet
         // NOTE: there could be a problem while trying to play one file in a big number of VideoViews.
-        // Probably it depends disk access speed.
+        // Probably it depends on disk access speed.
         // Anyway this should not lower a whole app performance.
         val path = "android.resource://" + context.packageName + "/" + R.raw.tears_of_steel_low
         val videoPath = Uri.parse(path)
