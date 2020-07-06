@@ -21,14 +21,17 @@ typealias PositionAndSize = Triple<Float, Float, Int>
  * @return true if one square overlaps another in coordinate system.
  */
 fun PositionAndSize.willBeIntersectedByPosition(pos: PositionAndSize): Boolean {
+    val (x1, y1, size1) = this
+    val (x2, y2, size2) = pos
+
     var collideX = false
     var collideY = false
 
-    if ((this.first + this.third >= pos.first) && (this.first <= pos.first + pos.third)) {
+    if ((x1 + size1 >= x2) && (x1 <= x2 + size2)) {
         collideX = true
     }
 
-    if ((this.second + this.third >= pos.second) && (this.second <= pos.second + pos.third)) {
+    if ((y1 + size1 >= y2) && (y1 <= y2 + size2)) {
         collideY = true
     }
 
@@ -44,34 +47,37 @@ fun PositionAndSize.willBeIntersectedByPosition(pos: PositionAndSize): Boolean {
 fun PositionAndSize.findNearestPositionForMove(
     maxSize: Pair<Int, Int>
 ): Pair<Float, Float> {
-    val radius = this.third / 2
+    val (x, y, size) = this
+    val (maxX, maxY) = maxSize
+
+    val radius = size / 2
     // As improvement: need to count appropriate nearest empty space for whole view to set view to it.
     // This method is currently doing a simpler job.
     val newX = when {
-        this.first < radius -> {
+        x < radius -> {
             0F
         }
-        this.first > maxSize.first - radius -> {
-            maxSize.first.toFloat() - this.third
+        x > maxX - radius -> {
+            maxX.toFloat() - this.third
         }
         else -> {
             // We need to subtract radius from the value because
             // we want the view's center to be equal to clicked point
-            this.first - radius
+            x - radius
         }
     }
 
     val newY = when {
-        this.second < radius -> {
+        y < radius -> {
             0F
         }
-        this.second > maxSize.second - radius -> {
-            maxSize.second.toFloat() - this.third
+        y > maxY - radius -> {
+            maxY.toFloat() - this.third
         }
         else -> {
             // We need to subtract radius from the value because
             // we want the view's center to be equal to clicked point
-            this.second - radius
+            y - radius
         }
     }
 
